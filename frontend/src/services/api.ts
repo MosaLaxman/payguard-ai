@@ -33,8 +33,10 @@ export const api = {
     return res.data;
   },
 
-  explainTransaction: async (id: string): Promise<{ transaction_id: string; explanation: string; cached: boolean }> => {
-    const res = await apiClient.post(`/api/transactions/${id}/explain`);
+  explainTransaction: async (id: string, forceRefresh: boolean = false): Promise<{ transaction_id: string; explanation: string; cached: boolean }> => {
+    const res = await apiClient.post(`/api/transactions/${id}/explain`, null, {
+      params: { force_refresh: forceRefresh }
+    });
     return res.data;
   },
 

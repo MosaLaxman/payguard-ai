@@ -24,7 +24,7 @@ export interface Transaction {
   payment_method: string;
   risk_score: number;
   risk_level: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
-  decision: 'APPROVE' | 'REVIEW' | 'BLOCK' | 'ADDITIONAL_AUTHENTICATION';
+  decision: 'APPROVE' | 'REVIEW' | 'BLOCK' | 'ADDITIONAL_AUTHENTICATION' | 'STEP-UP AUTHENTICATION';
   risk_factors: RiskFactor[];
   anomalies_detected: string[];
   ai_explanation?: string | null;

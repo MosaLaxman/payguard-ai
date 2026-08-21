@@ -19,10 +19,10 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
 
   if (!transaction) return null;
 
-  const handleGenerateExplanation = async () => {
+  const handleGenerateExplanation = async (forceRefresh: boolean = false) => {
     setLoadingAI(true);
     try {
-      const res = await api.explainTransaction(transaction.transaction_id);
+      const res = await api.explainTransaction(transaction.transaction_id, forceRefresh);
       setExplanation(res.explanation);
       if (onUpdateExplanation) {
         onUpdateExplanation(transaction.transaction_id, res.explanation);
@@ -42,7 +42,24 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
     }).format(val);
   };
 
+  const getDecisionDisplay = (decision: string) => {
+    switch (decision) {
+      case 'APPROVE':
+        return { text: 'APPROVE', color: 'text-emerald-400', sub: 'Auto-Cleared' };
+      case 'REVIEW':
+        return { text: 'REVIEW', color: 'text-orange-400', sub: 'Manual Queue' };
+      case 'ADDITIONAL_AUTHENTICATION':
+      case 'STEP-UP AUTHENTICATION':
+        return { text: 'STEP-UP 2FA', color: 'text-amber-400', sub: 'OTP Challenge' };
+      case 'BLOCK':
+        return { text: 'BLOCK', color: 'text-rose-400', sub: 'Zero-Loss Rule' };
+      default:
+        return { text: decision, color: 'text-slate-300', sub: 'Deterministic' };
+    }
+  };
+
   const ratio = (transaction.amount / Math.max(transaction.customer_average_amount, 1)).toFixed(1);
+  const decisionInfo = getDecisionDisplay(transaction.decision);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
@@ -85,34 +102,30 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
           
           {/* Key Overview Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex flex-col justify-between overflow-hidden">
               <span className="text-[10px] text-slate-400 uppercase font-semibold">Amount</span>
               <div className="text-sm font-bold text-white font-mono mt-0.5">{formatINR(transaction.amount)}</div>
               <div className="text-[10px] text-slate-400 mt-0.5">{ratio}x 30d Avg</div>
             </div>
 
-            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex flex-col justify-between overflow-hidden">
               <span className="text-[10px] text-slate-400 uppercase font-semibold">Gateway Action</span>
-              <div className={`text-sm font-bold font-mono mt-0.5 ${
-                transaction.decision === 'BLOCK' ? 'text-rose-400' :
-                transaction.decision === 'REVIEW' ? 'text-orange-400' :
-                transaction.decision === 'ADDITIONAL_AUTHENTICATION' ? 'text-amber-400' : 'text-emerald-400'
-              }`}>
-                {transaction.decision}
+              <div className={`text-xs sm:text-sm font-bold font-mono mt-0.5 truncate ${decisionInfo.color}`} title={transaction.decision}>
+                {decisionInfo.text}
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Deterministic Rule</div>
+              <div className="text-[10px] text-slate-400 mt-0.5 truncate">{decisionInfo.sub}</div>
             </div>
 
-            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex flex-col justify-between overflow-hidden">
               <span className="text-[10px] text-slate-400 uppercase font-semibold">Velocity (24h)</span>
               <div className="text-sm font-bold text-white font-mono mt-0.5">{transaction.transaction_count_last_24h} Txns</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Prior Fails: {transaction.previous_failed_transactions}</div>
+              <div className="text-[10px] text-slate-400 mt-0.5 truncate">Fails: {transaction.previous_failed_transactions}</div>
             </div>
 
-            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800">
+            <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800 flex flex-col justify-between overflow-hidden">
               <span className="text-[10px] text-slate-400 uppercase font-semibold">Payment Rail</span>
               <div className="text-sm font-bold text-slate-200 mt-0.5 truncate">{transaction.payment_method.split(' ')[0]}</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">{transaction.merchant_category}</div>
+              <div className="text-[10px] text-slate-400 mt-0.5 truncate">{transaction.merchant_category}</div>
             </div>
           </div>
 
@@ -196,12 +209,12 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
               
               {!explanation && (
                 <button
-                  onClick={handleGenerateExplanation}
+                  onClick={() => handleGenerateExplanation(false)}
                   disabled={loadingAI}
                   className="flex items-center space-x-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold shadow-lg shadow-blue-500/20 transition disabled:opacity-50"
                 >
                   <Sparkles className={`w-3.5 h-3.5 ${loadingAI ? 'animate-spin' : ''}`} />
-                  <span>{loadingAI ? 'Analyzing...' : 'Explain Decision'}</span>
+                  <span>{loadingAI ? 'Analyzing with Gemini...' : 'Explain Decision'}</span>
                 </button>
               )}
             </div>
@@ -214,11 +227,12 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                 <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1">
                   <span>Grounded strictly on computed risk telemetry (Zero Hallucination)</span>
                   <button 
-                    onClick={handleGenerateExplanation}
+                    onClick={() => handleGenerateExplanation(true)}
                     disabled={loadingAI}
-                    className="text-blue-400 hover:underline flex items-center space-x-1"
+                    className="text-blue-400 hover:text-blue-300 hover:underline flex items-center space-x-1 disabled:opacity-50"
                   >
-                    <span>Regenerate explanation</span>
+                    <Sparkles className={`w-3 h-3 ${loadingAI ? 'animate-spin text-blue-400' : ''}`} />
+                    <span>{loadingAI ? 'Regenerating...' : 'Regenerate explanation'}</span>
                   </button>
                 </div>
               </div>

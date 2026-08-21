@@ -220,10 +220,10 @@ def calculate_risk(
         recommended_action = "BLOCK"
     elif final_score >= 60:
         risk_level = "HIGH"
-        recommended_action = "REVIEW"
+        recommended_action = "BLOCK"
     elif final_score >= 30:
         risk_level = "MEDIUM"
-        recommended_action = "ADDITIONAL_AUTHENTICATION"
+        recommended_action = "STEP-UP AUTHENTICATION"
     else:
         risk_level = "LOW"
         recommended_action = "APPROVE"

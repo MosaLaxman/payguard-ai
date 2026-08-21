@@ -68,7 +68,8 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
       case 'REVIEW':
         return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-orange-500/10 text-orange-400 border border-orange-500/20">REVIEW</span>;
       case 'ADDITIONAL_AUTHENTICATION':
-        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">2FA REQUIRED</span>;
+      case 'STEP-UP AUTHENTICATION':
+        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">STEP-UP 2FA</span>;
       case 'BLOCK':
         return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">BLOCK</span>;
       default:
@@ -166,8 +167,7 @@ export const TransactionTable: React.FC<TransactionTableProps> = ({
             >
               <option value="ALL">All Gateway Actions</option>
               <option value="APPROVE">Approve</option>
-              <option value="ADDITIONAL_AUTHENTICATION">2FA Required</option>
-              <option value="REVIEW">Manual Review</option>
+              <option value="STEP-UP AUTHENTICATION">Step-Up 2FA</option>
               <option value="BLOCK">Block</option>
             </select>
             <Filter className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />

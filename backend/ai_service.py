@@ -7,6 +7,10 @@ Includes robust fallback generation so the demo NEVER fails even if offline.
 import os
 import json
 from typing import Dict, Any, List, Optional
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import google.generativeai as genai
 from schemas import TransactionRecord, RiskAssessmentResult
 
@@ -50,6 +54,15 @@ def _generate_fallback_explanation(tx: TransactionRecord) -> str:
         f"primarily because {reasons_str}. The recommended action is {tx.decision}."
     )
 
+def _get_generative_model():
+    """Tries gemini-2.5-flash or gemini-flash-latest."""
+    for model_name in ["gemini-2.5-flash", "gemini-flash-latest", "gemini-pro-latest"]:
+        try:
+            return genai.GenerativeModel(model_name)
+        except Exception:
+            continue
+    return genai.GenerativeModel("gemini-2.5-flash")
+
 def generate_transaction_explanation(tx: TransactionRecord) -> str:
     """
     Calls Gemini to produce a human-readable, executive-level explanation for a transaction.
@@ -59,7 +72,7 @@ def generate_transaction_explanation(tx: TransactionRecord) -> str:
         return _generate_fallback_explanation(tx)
 
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = _get_generative_model()
         
         prompt = f"""
 You are an expert Payment Gateway Risk Analyst at Razorpay (PayGuard AI system).
@@ -149,7 +162,7 @@ def query_ai_risk_analyst(
             return f"PayGuard AI analyzed the dataset ({stats.get('total_transactions', 65)} transactions). {stats.get('blocked_count', 0)} transactions were blocked due to deterministic rule thresholds and high anomaly scores. For any specific transaction (e.g. TX-9901 or TX-9902), you can view detailed factor contributions directly in the Transaction Inspector."
 
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = _get_generative_model()
         prompt = f"""
 You are the embedded AI Risk Analyst for PayGuard AI (Razorpay AI Risk Manager Track).
 Answer the user's question accurately using ONLY the grounded transaction dataset context provided below.

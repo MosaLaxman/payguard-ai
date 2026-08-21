@@ -85,7 +85,7 @@ def get_dashboard_stats():
 
     total_volume = sum(t.amount for t in txs)
     approved = sum(1 for t in txs if t.decision == "APPROVE")
-    review = sum(1 for t in txs if t.decision in ["REVIEW", "ADDITIONAL_AUTHENTICATION"])
+    review = sum(1 for t in txs if t.decision in ["REVIEW", "ADDITIONAL_AUTHENTICATION", "STEP-UP AUTHENTICATION"])
     blocked = sum(1 for t in txs if t.decision == "BLOCK")
     high_risk = sum(1 for t in txs if t.risk_score >= 60)
     avg_score = round(sum(t.risk_score for t in txs) / total_count, 1)
@@ -165,7 +165,7 @@ def get_transaction(tx_id: str):
     return tx
 
 @app.post("/api/transactions/{tx_id}/explain")
-def explain_transaction(tx_id: str):
+def explain_transaction(tx_id: str, force_refresh: bool = Query(False, description="Force a fresh call to Gemini")):
     """
     Generates or retrieves explainable AI narrative for a transaction using Gemini.
     """
@@ -173,7 +173,7 @@ def explain_transaction(tx_id: str):
     if not tx:
         raise HTTPException(status_code=404, detail=f"Transaction {tx_id} not found")
 
-    if tx.ai_explanation:
+    if tx.ai_explanation and not force_refresh:
         return {"transaction_id": tx_id, "explanation": tx.ai_explanation, "cached": True}
 
     explanation = generate_transaction_explanation(tx)
