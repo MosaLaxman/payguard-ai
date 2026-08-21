@@ -1,7 +1,6 @@
 @echo off
 echo ===================================================
-echo   PAYGUARD AI - Autonomous Risk Intelligence Engine
-echo   Razorpay AI Buildathon (Track 2: AI Risk Manager)
+echo   Autonomous Multi-Signal Payment Fraud Prevention
 echo ===================================================
 echo.
 

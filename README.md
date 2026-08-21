@@ -1,8 +1,7 @@
 # 🛡️ PayGuard AI — Autonomous Payment Risk Intelligence Engine
 
-> **Razorpay AI Buildathon Submission**  
-> **Track 2: AI Risk Manager**  
-> **Target Role:** AI Intern (2027 B.Tech CSE / MCA Batch)
+> **Autonomous Multi-Signal Payment Risk Intelligence & Fraud Prevention Platform**  
+> **Architecture:** Sub-15ms Deterministic Rules Engine + Grounded Google Gemini Explainable AI Layer
 
 ---
 
@@ -156,12 +155,12 @@ Open `http://localhost:5173` in your browser!
 
 ---
 
-## 🛡️ Razorpay Panel Defense & Technical Q&A
+## 🛡️ Technical Architecture & Engineering Q&A
 
 ### Q1: Why use a Hybrid Architecture instead of letting an LLM decide directly?
 > **Answer:** *"In financial payment infrastructure, authorization latency must remain strictly below 50ms. LLMs introduce 500-1500ms of latency, non-deterministic outputs, and hallucination risks. Our hybrid approach keeps critical safety thresholds deterministic and auditable, while leveraging Gemini for explainability and conversational analytics where humans need clarity."*
 
-### Q2: How would PayGuard AI scale to Razorpay's 50,000+ TPS?
+### Q2: How would PayGuard AI scale to 50,000+ TPS high-throughput loads?
 > **Answer:** *"The deterministic scoring engine is compute-light (O(1) lookups and weighted sums) and runs in-memory with customer baseline vectors cached in Redis. The LLM explanation layer is decoupled from the transaction path and triggered asynchronously via message queues (e.g. Kafka/Celery) only when required."*
 
 ### Q3: How do you prevent AI hallucinations?
@@ -169,8 +168,7 @@ Open `http://localhost:5173` in your browser!
 
 ---
 
-## 👨‍💻 Author & Submission Details
+## 👨‍💻 Project Information
 - **Project Name:** PayGuard AI
-- **Track:** Track 2 (AI Risk Manager) — Razorpay AI Buildathon
-- **Target Internship:** AI Intern (₹75,000/month stipend)
-- **Batch:** 2027 Graduating B.Tech CSE / MCA
+- **System Type:** Autonomous Payment Risk Intelligence Engine
+- **Stack:** React 18, Tailwind CSS, FastAPI, SQLite / Redis-ready, Google Gemini 1.5/2.5 Flash

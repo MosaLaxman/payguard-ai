@@ -1,6 +1,5 @@
 """
-PayGuard AI - FastAPI Backend Application
-Track 2: AI Risk Manager - Razorpay AI Buildathon
+PayGuard AI - Autonomous Payment Risk Intelligence Engine
 """
 
 from fastapi import FastAPI, HTTPException, Query
@@ -29,8 +28,8 @@ from ai_service import (
 init_db()
 
 app = FastAPI(
-    title="PayGuard AI - Risk Intelligence Engine",
-    description="Deterministic Risk Analysis + Explainable AI for Payment Gateway Risk Management",
+    title="PayGuard AI - Autonomous Risk Intelligence Engine",
+    description="Deterministic Risk Analysis + Explainable AI for Payment Risk Management",
     version="1.0.0"
 )
 
@@ -48,8 +47,8 @@ def root():
     return {
         "system": "PayGuard AI",
         "status": "active",
-        "track": "Track 2: AI Risk Manager (Razorpay Buildathon)",
         "version": "1.0.0",
+        "description": "Autonomous Payment Risk Intelligence Engine",
         "gemini_active": HAS_VALID_GEMINI_KEY
     }
 

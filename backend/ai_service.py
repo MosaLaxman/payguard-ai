@@ -75,7 +75,7 @@ def generate_transaction_explanation(tx: TransactionRecord) -> str:
         model = _get_generative_model()
         
         prompt = f"""
-You are an expert Payment Gateway Risk Analyst at Razorpay (PayGuard AI system).
+You are an expert Payment Gateway Risk Analyst for PayGuard AI.
 Provide a concise, professional, 2-to-3 sentence explanation for why the following transaction received this risk assessment.
 
 TRANSACTION METRICS (STRICT GROUND TRUTH - DO NOT INVENT FACTS):
@@ -164,7 +164,7 @@ def query_ai_risk_analyst(
     try:
         model = _get_generative_model()
         prompt = f"""
-You are the embedded AI Risk Analyst for PayGuard AI (Razorpay AI Risk Manager Track).
+You are the embedded AI Risk Analyst for PayGuard AI.
 Answer the user's question accurately using ONLY the grounded transaction dataset context provided below.
 
 GROUNDED DATASET CONTEXT:

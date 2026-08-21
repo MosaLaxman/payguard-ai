@@ -16,14 +16,14 @@ export const ArchitectureDefenseModal: React.FC<ArchitectureDefenseModalProps> =
             <Layers className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white">System Architecture & Razorpay Panel Defense</h2>
+            <h2 className="text-lg font-bold text-white">System Architecture & Technical Specifications</h2>
             <p className="text-xs text-slate-400 mt-0.5">
-              Technical justification for the hybrid deterministic + explainable AI architecture
+              Technical design specifications for the hybrid deterministic + explainable AI architecture
             </p>
           </div>
         </div>
         <div className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-xs font-mono font-bold">
-          Ready for Panel Defense
+          Production Specifications
         </div>
       </div>
 
@@ -56,7 +56,7 @@ export const ArchitectureDefenseModal: React.FC<ArchitectureDefenseModalProps> =
           <div className="p-4 bg-slate-900/90 border border-slate-800 rounded-xl flex flex-col justify-between">
             <div className="text-[10px] text-blue-400 font-mono font-bold uppercase mb-1">Step 3</div>
             <div className="font-bold text-white text-xs">Score & Action Matrix</div>
-            <p className="text-[11px] text-slate-400 mt-1">Score: 0-100<br/>Approve / 2FA / Review / Block</p>
+            <p className="text-[11px] text-slate-400 mt-1">Score: 0-100<br/>Approve / Step-Up 2FA / Block</p>
             <div className="text-[10px] text-emerald-400 font-mono mt-2">Zero Ambiguity</div>
           </div>
 
@@ -79,7 +79,7 @@ export const ArchitectureDefenseModal: React.FC<ArchitectureDefenseModalProps> =
         </div>
       </div>
 
-      {/* 2. Razorpay Panel Q&A Defense Cards */}
+      {/* 2. Technical Architecture & Engineering Q&A */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         
         {/* Question 1 */}
@@ -89,9 +89,9 @@ export const ArchitectureDefenseModal: React.FC<ArchitectureDefenseModalProps> =
             <span>Why not use pure LLMs for payment approval?</span>
           </h4>
           <p className="text-xs text-slate-300 leading-relaxed">
-            In financial payment gateways like Razorpay, pure LLMs cannot be the primary gatekeeper because:
+            In high-throughput financial payment gateways, pure LLMs cannot be the primary gatekeeper because:
             1) <strong>Latency:</strong> Gateways require sub-50ms roundtrip decisions, whereas LLM inference takes 400-1200ms.
-            2) <strong>Determinism & Auditability:</strong> Financial regulations (RBI) require 100% reproducible and explainable reasons for declining transactions.
+            2) <strong>Determinism & Auditability:</strong> Financial compliance requires 100% reproducible and explainable reasons for declining transactions.
             3) <strong>Cost & Reliability:</strong> LLMs hallucinate and can fail under burst traffic.
           </p>
         </div>
@@ -113,7 +113,7 @@ export const ArchitectureDefenseModal: React.FC<ArchitectureDefenseModalProps> =
         <div className="glass-panel p-5 rounded-2xl border border-slate-800 space-y-2">
           <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
             <Scale className="w-4 h-4" />
-            <span>How does this scale to Razorpay's 50,000+ TPS?</span>
+            <span>How does this scale to 50,000+ TPS high-throughput loads?</span>
           </h4>
           <p className="text-xs text-slate-300 leading-relaxed">
             The deterministic engine runs in-memory with pre-computed customer baselines (stored in Redis). The LLM explanation is invoked <strong>asynchronously via worker queues</strong> or on-demand when a fraud analyst opens the dashboard, ensuring <strong>zero impact on live payment throughput</strong>.

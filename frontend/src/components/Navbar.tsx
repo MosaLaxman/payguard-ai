@@ -31,11 +31,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                   PAYGUARD AI
                 </span>
                 <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                  Track 2: AI Risk Manager
+                  AI Risk Engine
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 font-medium">
-                Autonomous Payment Risk Intelligence • Razorpay Buildathon
+                Autonomous Multi-Signal Payment Risk Intelligence & Fraud Prevention
               </p>
             </div>
           </div>
