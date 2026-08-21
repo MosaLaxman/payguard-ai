@@ -16,6 +16,19 @@ Rather than naively outsourcing payment authorization to an unpredictable Large 
 
 ---
 
+## 📸 Application Screenshots
+
+### 1. Operations Risk Dashboard & KPIs
+![PayGuard AI Operations Dashboard](screenshots/01_dashboard.png)
+
+### 2. Live What-If Risk Simulator & 2FA Step-Up
+![PayGuard AI Risk Simulator](screenshots/02_risk_simulator.png)
+
+### 3. AI Risk Analyst Co-Pilot
+![PayGuard AI Analyst](screenshots/03_ai_analyst.png)
+
+---
+
 ## 🏛️ System Architecture
 
 ```
